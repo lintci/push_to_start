@@ -16,7 +16,7 @@ module GithubWebhook
     end
 
     def ping?
-      event =~ /ping/
+      event =~ /ping/i
     end
   end
 end
