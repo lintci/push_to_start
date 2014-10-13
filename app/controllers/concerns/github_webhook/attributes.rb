@@ -18,11 +18,11 @@ module GithubWebhook
     end
 
     def raw_payload
-      @raw_payload ||= request.body.read
+      request.body.read
     end
 
     def payload
-      JSON.parse(raw_payload)
+      JSON.parse(params[:payload])
     end
   end
 end
