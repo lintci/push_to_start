@@ -7,7 +7,7 @@ class PayloadsController < ActionController::Base
 
   def create
     PayloadReceivedEvent.perform_later(event, payload)
-    File.open(Rails.root.join('tmp/heroku.txt'), 'w'){|f| f.write(raw_payload)}
+    File.open(Rails.root.join('log/heroku.txt'), 'w'){|f| f.write(raw_payload)}
     head :created
   end
 end
