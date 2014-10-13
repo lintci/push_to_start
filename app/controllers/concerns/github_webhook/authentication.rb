@@ -20,7 +20,7 @@ module GithubWebhook
       'sha1=' + OpenSSL::HMAC.hexdigest(
         OpenSSL::Digest.new('sha1'),
         ENV['GITHUB_WEBHOOK_TOKEN'],
-        request.body.read
+        raw_payload
       )
     end
   end

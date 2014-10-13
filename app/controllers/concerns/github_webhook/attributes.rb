@@ -17,8 +17,12 @@ module GithubWebhook
       request.headers['HTTP_X_HUB_SIGNATURE']
     end
 
+    def raw_payload
+      @raw_payload ||= request.body.read
+    end
+
     def payload
-      JSON.parse(params[:payload])
+      JSON.parse(raw_payload)
     end
   end
 end
