@@ -7,7 +7,7 @@ class PayloadsController < ActionController::Base
 
   def create
     PayloadReceivedEvent.perform_later(event, payload)
-
-    head :ok
+    logger.debug raw_payload.inspect
+    head :created
   end
 end

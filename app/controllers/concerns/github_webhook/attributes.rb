@@ -14,7 +14,7 @@ module GithubWebhook
     end
 
     def provided_signature
-      request.headers['HTTP_X_HUB_SIGNATURE']
+      request.headers['X-Hub-Signature']
     end
 
     def raw_payload
