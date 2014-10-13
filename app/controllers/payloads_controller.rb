@@ -6,8 +6,6 @@ class PayloadsController < ActionController::Base
   include GithubWebhook::PingResponder
 
   def create
-    logger.info request.headers.inspect
-    logger.info params.inspect
     PayloadReceivedEvent.perform_later(event, payload)
 
     head :ok
