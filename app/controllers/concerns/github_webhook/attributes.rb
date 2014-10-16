@@ -14,11 +14,11 @@ module GithubWebhook
     end
 
     def provided_signature
-      request.headers['X-Hub-Signature']
+      request.headers['X-Hub-Signature'] || ''
     end
 
     def raw_payload
-      request.body.read
+      @raw_payload ||= request.body.read
     end
 
     def payload

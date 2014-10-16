@@ -6,8 +6,8 @@ class PayloadsController < ActionController::Base
   include GithubWebhook::PingResponder
 
   def create
-    PayloadReceivedEvent.perform_later(event, payload)
-    File.open(Rails.root.join('log/heroku.txt'), 'w'){|f| f.write(raw_payload)}
+    PayloadReceivedEvent.perform_async(event, payload)
+
     head :created
   end
 end

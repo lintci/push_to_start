@@ -19,13 +19,13 @@ describe PayloadsController do
       request.headers['X-GitHub-Event'] = event
       request.headers['X-Hub-Signature'] = signature
 
-      post :create, payload: payload
+      post :create, payload: raw_payload
     end
 
     context 'when the request is unauthenticated' do
       let(:event){'pull_request'}
       let(:signature){'123'}
-      let(:payload){File.read('spec/support/fixtures/pull_request_reopened.json')}
+      let(:raw_payload){File.read('spec/support/fixtures/pull_request_reopened.json')}
 
       it 'responds with unauthorized' do
         expect(response).to have_http_status(:unauthorized)
@@ -35,7 +35,7 @@ describe PayloadsController do
     context 'when the request is a ping' do
       let(:event){'ping'}
       let(:signature){'sha1=33018662e77cc3c938f1dd6539a95b9e5564298b'}
-      let(:payload){File.read('spec/support/fixtures/ping.json')}
+      let(:raw_payload){File.read('spec/support/fixtures/ping.json')}
 
       it 'responds with ok' do
         expect(response).to have_http_status(:ok)
@@ -45,10 +45,16 @@ describe PayloadsController do
     context 'when the request is something other than ping' do
       let(:event){'pull_request'}
       let(:signature){'sha1=2cae126948b24c8010b13e7e07be9f3d23cfb0b0'}
-      let(:payload){File.read('spec/support/fixtures/pull_request_reopened.json')}
+      let(:raw_payload){File.read('spec/support/fixtures/pull_request_reopened.json')}
+      let(:payload){JSON.parse(raw_payload)}
+      let(:event_job){PayloadReceivedEvent.jobs.first}
 
       it 'responds with ok and enqueues the payload' do
         expect(response).to have_http_status(:created)
+      end
+
+      it 'enqueues the payload received event' do
+        expect(event_job['args']).to eq(['pull_request', payload])
       end
     end
   end
