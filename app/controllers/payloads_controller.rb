@@ -6,7 +6,7 @@ class PayloadsController < ActionController::Base
   include GithubWebhook::PingResponder
 
   def create
-    PayloadReceivedEvent.perform_async(event, payload)
+    PayloadReceivedWorker.perform_async(event, payload)
 
     head :created
   end

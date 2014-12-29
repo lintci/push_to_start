@@ -47,7 +47,7 @@ describe PayloadsController do
       let(:signature){'sha1=2cae126948b24c8010b13e7e07be9f3d23cfb0b0'}
       let(:raw_payload){File.read('spec/support/fixtures/pull_request_reopened.json')}
       let(:payload){JSON.parse(raw_payload)}
-      let(:event_job){PayloadReceivedEvent.jobs.first}
+      let(:event_job){PayloadReceivedWorker.jobs.first}
 
       it 'responds with ok and enqueues the payload' do
         expect(response).to have_http_status(:created)
