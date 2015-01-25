@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 ruby '2.2.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -11,6 +10,12 @@ gem 'rails_12factor', group: :production
 gem 'foreman'
 gem 'puma'
 
+gem 'rails_12factor', group: :production
+gem 'newrelic_rpm'
+gem 'sentry-raven'
+gem 'le'
+gem 'skylight'
+gem 'lograge'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',      group: :doc
@@ -36,4 +41,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-

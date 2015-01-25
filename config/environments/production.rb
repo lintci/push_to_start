@@ -61,4 +61,32 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.logger = Le.new(Rails.application.secrets.logentries_token)
+  config.logger.formatter = proc do |severity, timestamp, _, message|
+    data = {severity: severity, timestamp: timestamp}
+
+    if message.is_a? Hash
+      data.merge!(message)
+    else
+      data.merge!(message: message)
+    end
+
+    JSON.dump(data)
+  end
+
+  config.lograge.enabled = true
+  config.lograge.logger = config.logger
+  config.lograge.formatter = Lograge::Formatters::Raw.new
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |key|
+      %w(controller action).include?(key)
+    end
+
+    {
+      'params' => params,
+      'timestamp' => Time.now.iso8601,
+      'severity' => 'INFO'
+    }
+  end
 end
