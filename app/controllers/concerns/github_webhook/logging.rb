@@ -10,7 +10,7 @@ module GithubWebhook
   private
 
     def log_request
-      logger.info "Received event #{event} (#{event_id})"
+      logger.info(event: event, event_id: event_id, repo: repo)
     end
   end
 end

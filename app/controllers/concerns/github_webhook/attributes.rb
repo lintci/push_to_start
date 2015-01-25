@@ -13,6 +13,10 @@ module GithubWebhook
       request.headers['X-GitHub-Delivery']
     end
 
+    def repo
+      payload.fetch('repository', {}).fetch('full_name')
+    end
+
     def provided_signature
       request.headers['X-Hub-Signature'] || ''
     end
