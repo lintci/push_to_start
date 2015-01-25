@@ -10,7 +10,12 @@ module GithubWebhook
     def authenticate_request
       return if Rack::Utils.secure_compare(signature, provided_signature)
 
-      logger.warn 'Unauthorized request'
+      logger.warn(
+        message: 'Unauthorized request',
+        provided_signature: provided_signature,
+        computed_signature: signature
+      )
+
       head :unauthorized
     end
 
