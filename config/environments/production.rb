@@ -77,7 +77,7 @@ Rails.application.configure do
 
   config.logger = Rails.logger
   config.action_controller.logger = Rails.logger
-  config.active_record.logger = Rails.logger
+  # config.active_record.logger = Rails.logger
   config.action_mailer.logger = Rails.logger
   config.action_view.logger = Rails.logger
   config.assets.logger = Rails.logger
