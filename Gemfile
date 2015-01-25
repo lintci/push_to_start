@@ -6,7 +6,6 @@ ruby '2.2.0'
 gem 'rails', '4.1.6'
 gem 'sidekiq'
 
-gem 'rails_12factor', group: :production
 gem 'foreman'
 gem 'puma'
 
