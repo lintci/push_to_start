@@ -19,7 +19,7 @@ module GithubWebhook
     def signature
       'sha1=' + OpenSSL::HMAC.hexdigest(
         OpenSSL::Digest.new('sha1'),
-        ENV['GITHUB_WEBHOOK_TOKEN'],
+        Rails.application.secrets.github_webhook_token,
         raw_payload
       )
     end

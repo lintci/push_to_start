@@ -5,12 +5,12 @@ describe PayloadsController do
     let(:token){'5257771f207094a0a9a5babc94a5f6d2d3dfe619bf8199fdb9af8dc868eb2048'}
 
     around(:each) do |example|
-      old_token = ENV['GITHUB_WEBHOOK_TOKEN']
-      ENV['GITHUB_WEBHOOK_TOKEN'] = token
+      old_token = Rails.application.secrets.github_webhook_token
+      Rails.application.secrets.github_webhook_token = token
 
       example.run
 
-      ENV['GITHUB_WEBHOOK_TOKEN'] = old_token
+      Rails.application.secrets.github_webhook_token = old_token
     end
 
     before(:each) do
