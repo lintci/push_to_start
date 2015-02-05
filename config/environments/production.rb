@@ -59,11 +59,8 @@ Rails.application.configure do
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
-
-  Rails.logger = Le.new(Rails.application.secrets.logentries_token)
-  Rails.logger.formatter = proc do |severity, timestamp, _, message|
+  config.logger = Le.new(Rails.application.secrets.logentries_token)
+  config.logger.formatter = proc do |severity, timestamp, _, message|
     data = {severity: severity, timestamp: timestamp}
 
     if message.is_a? Hash
