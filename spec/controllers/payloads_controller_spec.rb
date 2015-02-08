@@ -54,7 +54,7 @@ describe PayloadsController do
       end
 
       it 'enqueues the payload received event' do
-        expect(event_job['args']).to eq(['pull_request', payload])
+        expect(event_job['args']).to eq(['pull_request', 'bdb6ec00-5284-11e4-8e22-6dacd62599e2', payload])
       end
     end
   end
