@@ -1,3 +1,5 @@
+require 'github_authenticator'
+
 module GithubWebhook
   # Handles authentication of Github Webhooks
   module Authentication
@@ -8,25 +10,17 @@ module GithubWebhook
     end
 
     def authenticate_request
-      return if Rack::Utils.secure_compare(signature, provided_signature)
+      token = Rails.application.secrets.github_webhook_token
+      payload = request.body.read
+      signature = request.headers['X-Hub-Signature'] || ''
 
-      logger.warn(
-        message: 'Unauthorized request',
-        provided_signature: provided_signature,
-        computed_signature: signature
-      )
+      authenticator = GithubAuthenticator.new(token)
 
-      head :unauthorized
-    end
+      unless authenticator.authenticated?(payload, signature)
+        logger.warn(message: 'Unauthenticated request')
 
-  private
-
-    def signature
-      'sha1=' + OpenSSL::HMAC.hexdigest(
-        OpenSSL::Digest.new('sha1'),
-        Rails.application.secrets.github_webhook_token,
-        raw_payload
-      )
+        head :unauthorized
+      end
     end
   end
 end

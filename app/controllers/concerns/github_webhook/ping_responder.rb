@@ -16,7 +16,7 @@ module GithubWebhook
     end
 
     def ping?
-      event == 'ping'
+      request.headers['X-Github-Event'] == 'ping'
     end
   end
 end
